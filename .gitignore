@@ -1,0 +1,17 @@
+.gradle/
+.idea/
+build/
+/config.json
+/config
+/purgeArchives
+
+# Eclipse settings
+.classpath
+.project
+.settings/
+bin/
+
+# H2 Database
+/*.mv.db
+/*.trace.db
+/*.lock.db

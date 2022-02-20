@@ -1,0 +1,4 @@
+# /ping
+- name: ping
+  description: Checks the Bot's Gateway Ping
+  handler: dev.moontm.giveawaybot.systems.commands.PingCommand
