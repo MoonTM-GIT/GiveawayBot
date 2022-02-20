@@ -18,7 +18,7 @@ public class GiveawayRepository {
 	}
 
 	public Giveaway insert(Giveaway giveaway) throws SQLException {
-		PreparedStatement statement = con.prepareStatement("INSERT INTO giveaways (guild_id, channel_id, created_by, created_at, due_at, winner_reward, winner_amount) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		PreparedStatement statement = con.prepareStatement("INSERT INTO giveaways (guild_id, channel_id, created_by, created_at, due_at, winner_prize, winner_amount) VALUES (?, ?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS
 		);
 		statement.setLong(1, giveaway.getGuildId());
@@ -26,7 +26,7 @@ public class GiveawayRepository {
 		statement.setLong(3, giveaway.getHostedBy());
 		statement.setTimestamp(4, giveaway.getCreatedAt());
 		statement.setTimestamp(5, giveaway.getDueAt());
-		statement.setString(6, giveaway.getWinnerReward());
+		statement.setString(6, giveaway.getWinnerPrize());
 		statement.setInt(7, giveaway.getWinnerAmount());
 		int rows = statement.executeUpdate();
 		if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
@@ -174,7 +174,7 @@ public class GiveawayRepository {
 		giveaway.setParticipants(this.convertArrayToLongArray(rs.getArray("participants")));
 		giveaway.setCreatedAt(rs.getTimestamp("created_at"));
 		giveaway.setDueAt(rs.getTimestamp("due_at"));
-		giveaway.setWinnerReward(rs.getString("winner_reward"));
+		giveaway.setWinnerPrize(rs.getString("winner_prize"));
 		giveaway.setWinnerAmount(rs.getInt("winner_amount"));
 		giveaway.setActive(rs.getBoolean("active"));
 		return giveaway;

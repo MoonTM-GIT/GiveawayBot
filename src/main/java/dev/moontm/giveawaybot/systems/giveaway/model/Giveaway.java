@@ -15,7 +15,7 @@ public class Giveaway {
 	private long[] participants;
 	private Timestamp createdAt;
 	private Timestamp dueAt;
-	private String winnerReward;
+	private String winnerPrize;
 	private int winnerAmount;
 	private boolean active;
 }

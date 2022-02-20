@@ -4,7 +4,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import dev.moontm.giveawaybot.command.InteractionHandler;
 import dev.moontm.giveawaybot.data.config.BotConfig;
 import dev.moontm.giveawaybot.data.h2db.DbHelper;
-import dev.moontm.giveawaybot.events.StartupListener;
+import dev.moontm.giveawaybot.listener.ModalSubmitListener;
+import dev.moontm.giveawaybot.listener.StartupListener;
 import dev.moontm.giveawaybot.tasks.PresenceUpdater;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -90,6 +91,7 @@ public class Bot {
 	private static void addEventListeners(JDA jda) {
 		jda.addEventListener(
 				new StartupListener(),
+				new ModalSubmitListener(),
 				PresenceUpdater.standardActivities()
 		);
 	}

@@ -1,4 +1,4 @@
-package dev.moontm.giveawaybot.events;
+package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.Constants;
