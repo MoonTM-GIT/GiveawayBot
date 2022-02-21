@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @Slf4j
 public class GiveawayRepository {
-	private Connection con;
+	private final Connection con;
 
 	public GiveawayRepository(Connection connection) {
 		con = connection;
 	}
 
 	public Giveaway insert(Giveaway giveaway) throws SQLException {
-		PreparedStatement statement = con.prepareStatement("INSERT INTO giveaways (guild_id, channel_id, created_by, created_at, due_at, winner_prize, winner_amount) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		PreparedStatement statement = con.prepareStatement("INSERT INTO giveaways (guild_id, channel_id, hosted_by, created_at, due_at, winner_prize, winner_amount) VALUES (?, ?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS
 		);
 		statement.setLong(1, giveaway.getGuildId());
@@ -63,6 +63,16 @@ public class GiveawayRepository {
 		int rows = statement.executeUpdate();
 		if (rows == 0) throw new SQLException("Could not update Meeting winners. Meeting: " + old);
 		old.setWinners(winners);
+		return old;
+	}
+
+	public Giveaway updateMessage(Giveaway old, long messageId) throws SQLException {
+		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET message_id = ? WHERE id = ?");
+		statement.setLong(1, messageId);
+		statement.setLong(2, old.getId());
+		int rows = statement.executeUpdate();
+		if (rows == 0) throw new SQLException("Could not update Meeting winners. Meeting: " + old);
+		old.setMessageId(messageId);
 		return old;
 	}
 

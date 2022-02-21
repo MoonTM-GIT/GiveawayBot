@@ -1,6 +1,6 @@
 CREATE TABLE giveaways
 (
-    id              BIGINT           AUTO_INCREMENT,
+    id              IDENTITY NOT NULL PRIMARY KEY,
     guild_id        BIGINT          NOT NULL,
     channel_id      BIGINT          NOT NULL,
     message_id      BIGINT          DEFAULT NULL,

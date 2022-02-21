@@ -27,6 +27,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class Bot {
 
+	public static JDA jda;
 	/**
 	 * The set of configuration properties that this bot uses.
 	 */
@@ -72,7 +73,7 @@ public class Bot {
 		dataSource = DbHelper.initDataSource(config);
 		interactionHandler = new InteractionHandler();
 		asyncPool = Executors.newScheduledThreadPool(config.getSystems().getAsyncPoolSize());
-		var jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
+		jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.setChunkingFilter(ChunkingFilter.ALL)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)

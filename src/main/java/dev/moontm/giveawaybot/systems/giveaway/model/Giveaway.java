@@ -17,5 +17,5 @@ public class Giveaway {
 	private Timestamp dueAt;
 	private String winnerPrize;
 	private int winnerAmount;
-	private boolean active;
+	private boolean active = true;
 }
