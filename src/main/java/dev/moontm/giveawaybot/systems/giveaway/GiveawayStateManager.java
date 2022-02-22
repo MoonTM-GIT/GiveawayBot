@@ -5,10 +5,7 @@ import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.systems.giveaway.jobs.GiveawayStartJob;
 import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.sql.Date;
@@ -46,9 +43,24 @@ public class GiveawayStateManager {
 				.withIdentity(String.valueOf(giveaway.getId()))
 				.startAt(runTime)
 				.build();
-
 		try {
 			scheduler.scheduleJob(job, trigger);
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cancelSchedule(Giveaway giveaway){
+		try {
+			scheduler.deleteJob(JobKey.jobKey(String.valueOf(giveaway.getId())));
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void triggerJob(Giveaway giveaway) {
+		try {
+			scheduler.triggerJob(JobKey.jobKey(String.valueOf(giveaway.getId())));
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
