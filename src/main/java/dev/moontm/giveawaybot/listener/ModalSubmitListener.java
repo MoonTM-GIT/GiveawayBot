@@ -1,6 +1,7 @@
 package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
+import dev.moontm.giveawaybot.Constants;
 import dev.moontm.giveawaybot.command.Responses;
 import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
@@ -59,8 +60,14 @@ public class ModalSubmitListener extends ListenerAdapter {
 
 			GiveawayRepository repo = new GiveawayRepository(con);
 			Giveaway inserted = repo.insert(giveaway);
-			giveawayChannel.sendMessageEmbeds(buildGiveawayEmbed(inserted)).queue(message -> {try {new GiveawayRepository(Bot.dataSource.getConnection()).updateMessage(inserted, message.getIdLong());} catch (SQLException e) {Responses.error(event.getHook() , "An Unexpected Error Occurred.").queue();}});
-			//TODO:Add Scheduling
+			giveawayChannel.sendMessageEmbeds(buildGiveawayEmbed(inserted)).queue(message -> {
+				try {
+					new GiveawayRepository(Bot.dataSource.getConnection()).updateMessage(inserted, message.getIdLong());
+					message.addReaction(Bot.jda.getEmoteById(Constants.emojiId)).queue();
+				} catch (SQLException e) {
+					Responses.error(event.getHook() , "An Unexpected Error Occurred.").queue();
+				}});
+			Bot.giveawayStateManager.scheduleGiveaway(new GiveawayRepository(Bot.dataSource.getConnection()).getById(inserted.getId()).get());
 		} catch (SQLException e) {
 			Responses.error(event.getHook(), "An Unexpected Error Occurred.");
 		}
@@ -80,6 +87,7 @@ public class ModalSubmitListener extends ListenerAdapter {
 
 	/**
 	 * Checks if a given String is an Integer.
+	 *
 	 * @param strInteger The String to check.
 	 * @return True if it is, false if it isn't.
 	 */

@@ -15,6 +15,8 @@ public class Constants {
 	 */
 	public static final String TEXT_WHITE = "\u001B[37m";
 
+	public static final long emojiId = 777261421611319336L;
+
 	private Constants() {
 	}
 }

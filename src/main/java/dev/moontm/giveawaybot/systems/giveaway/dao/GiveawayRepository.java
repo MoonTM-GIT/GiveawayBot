@@ -4,6 +4,7 @@ import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,8 +29,9 @@ public class GiveawayRepository {
 		statement.setTimestamp(5, giveaway.getDueAt());
 		statement.setString(6, giveaway.getWinnerPrize());
 		statement.setInt(7, giveaway.getWinnerAmount());
-		int rows = statement.executeUpdate();
-		if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
+		statement.executeUpdate();
+
+		//if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
 		ResultSet rs = statement.getGeneratedKeys();
 		if (rs.next()){
 			giveaway.setId(rs.getInt("id"));
@@ -173,15 +175,27 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	public Optional<Giveaway> getByMessageId(long messageId) throws SQLException {
+		Giveaway giveaway = null;
+		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE message_id = ?", Statement.RETURN_GENERATED_KEYS);
+		statement.setLong(1, messageId);
+		ResultSet rs = statement.executeQuery();
+		if (rs.next()) {
+			giveaway = this.readGiveaway(rs);
+		}
+		rs.close();
+		return Optional.ofNullable(giveaway);
+	}
+
 	public Giveaway readGiveaway(ResultSet rs) throws SQLException {
 		Giveaway giveaway = new Giveaway();
 		giveaway.setId(rs.getLong("id"));
 		giveaway.setGuildId(rs.getLong("guild_id"));
 		giveaway.setChannelId(rs.getLong("channel_id"));
 		giveaway.setMessageId(rs.getLong("message_id"));
-		giveaway.setHostedBy(rs.getLong("created_by"));
-		giveaway.setWinners(this.convertArrayToLongArray(rs.getArray("winners")));
-		giveaway.setParticipants(this.convertArrayToLongArray(rs.getArray("participants")));
+		giveaway.setHostedBy(rs.getLong("hosted_by"));
+		giveaway.setWinners(convertArrayToLongArray(rs.getArray("winners")));
+		giveaway.setParticipants(convertArrayToLongArray(rs.getArray("participants")));
 		giveaway.setCreatedAt(rs.getTimestamp("created_at"));
 		giveaway.setDueAt(rs.getTimestamp("due_at"));
 		giveaway.setWinnerPrize(rs.getString("winner_prize"));
@@ -190,11 +204,23 @@ public class GiveawayRepository {
 		return giveaway;
 	}
 
-	private long[] convertArrayToLongArray(Array array) throws SQLException {
+	public static long[] convertArrayToLongArray(Array array) throws SQLException {
+		long[] emptyArray = new long[0];
+		if (array == null) return emptyArray;
 		Object[] tmp = (Object[]) array.getArray();
 		long[] longArray = new long[tmp.length];
 		for (int i = 0; i < tmp.length; i++) {
 			longArray[i] = (Long) tmp[i];
+		}
+		return longArray;
+	}
+
+	public static long[] convertObjectArraytToLongArray(Object[] array) throws SQLException {
+		long[] emptyArray = new long[0];
+		if (array == null) return emptyArray;
+		long[] longArray = new long[array.length];
+		for (int i = 0; i < array.length; i++) {
+			longArray[i] = (Long) array[i];
 		}
 		return longArray;
 	}
