@@ -2,6 +2,8 @@ package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.Constants;
+import dev.moontm.giveawaybot.systems.giveaway.GiveawayManager;
+import dev.moontm.giveawaybot.systems.giveaway.GiveawayStateManager;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -28,6 +30,8 @@ public class StartupListener extends ListenerAdapter {
 		//log.info("Guilds: " + GuildUtils.getGuildList(event.getJDA().getGuilds(), true, true));
 		var optionalGuild = event.getJDA().getGuilds().stream().max(Comparator.comparing(Guild::getMemberCount));
 		optionalGuild.ifPresent(guild -> defaultGuild = guild);
+		Bot.giveawayStateManager = new GiveawayStateManager();
+		Bot.giveawayManager = new GiveawayManager();
 
 		log.info("Starting Guild initialization\n");
 		for (var guild : event.getJDA().getGuilds()) {

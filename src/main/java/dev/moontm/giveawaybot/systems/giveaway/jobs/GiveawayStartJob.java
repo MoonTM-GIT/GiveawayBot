@@ -34,7 +34,7 @@ public class GiveawayStartJob implements Job {
 			List<Long> winnerIds = new ArrayList<Long>();
 			winners.forEach(user -> winnerIds.add(user.getIdLong()));
 
-			TextChannel channel = Bot.jda.getTextChannelById(giveaway.getChannelId());
+			TextChannel channel = Bot.jda.getGuildById(giveaway.getGuildId()).getTextChannelById(giveaway.getChannelId());
 			channel.editMessageEmbedsById(giveaway.getMessageId(), buildWinnerEmbed(giveaway, winners)).queue();
 			StringBuilder sb = new StringBuilder();
 			if (winners.size() == 1){
@@ -52,7 +52,7 @@ public class GiveawayStartJob implements Job {
 			new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveawayId);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {ignored.printStackTrace();}
 	}
 
 	public List<User> drawWinners(List<User> participants, int amount) {

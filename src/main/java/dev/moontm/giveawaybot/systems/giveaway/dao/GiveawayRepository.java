@@ -91,7 +91,7 @@ public class GiveawayRepository {
 		statement.setLong(1, id);
 		ResultSet rs = statement.executeQuery();
 		if (rs.next()) {
-			giveaway = this.readGiveaway(rs);
+			giveaway = readGiveaway(rs);
 		}
 		rs.close();
 		this.con.close();
@@ -103,10 +103,8 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE active = TRUE", Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
-		rs.close();
-		this.con.close();
 		return giveaways;
 	}
 
@@ -116,7 +114,7 @@ public class GiveawayRepository {
 		statement.setLong(1, hostId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -129,7 +127,7 @@ public class GiveawayRepository {
 		statement.setLong(1, hostId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -142,7 +140,7 @@ public class GiveawayRepository {
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -155,7 +153,7 @@ public class GiveawayRepository {
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -168,7 +166,7 @@ public class GiveawayRepository {
 		statement.setLong(1, guildId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -181,7 +179,7 @@ public class GiveawayRepository {
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()){
-			giveaways.add(this.readGiveaway(rs));
+			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
 		this.con.close();
@@ -194,14 +192,14 @@ public class GiveawayRepository {
 		statement.setLong(1, messageId);
 		ResultSet rs = statement.executeQuery();
 		if (rs.next()) {
-			giveaway = this.readGiveaway(rs);
+			giveaway = readGiveaway(rs);
 		}
 		rs.close();
 		this.con.close();
 		return Optional.ofNullable(giveaway);
 	}
 
-	public Giveaway readGiveaway(ResultSet rs) throws SQLException {
+	public static Giveaway readGiveaway(ResultSet rs) throws SQLException {
 		Giveaway giveaway = new Giveaway();
 		giveaway.setId(rs.getLong("id"));
 		giveaway.setGuildId(rs.getLong("guild_id"));
@@ -215,7 +213,6 @@ public class GiveawayRepository {
 		giveaway.setWinnerPrize(rs.getString("winner_prize"));
 		giveaway.setWinnerAmount(rs.getInt("winner_amount"));
 		giveaway.setActive(rs.getBoolean("active"));
-		this.con.close();
 		return giveaway;
 	}
 

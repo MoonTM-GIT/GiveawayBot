@@ -85,8 +85,6 @@ public class Bot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.addEventListeners(interactionHandler)
 				.build();
-		giveawayStateManager = new GiveawayStateManager();
-		giveawayManager = new GiveawayManager();
 		addEventListeners(jda);
 	}
 

@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.util.List;
 
 import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 @Slf4j
@@ -42,6 +43,7 @@ public class GiveawayStateManager {
 		Trigger trigger = newTrigger()
 				.withIdentity(String.valueOf(giveaway.getId()))
 				.startAt(runTime)
+				.withSchedule(simpleSchedule().withMisfireHandlingInstructionFireNow())
 				.build();
 		try {
 			scheduler.scheduleJob(job, trigger);
