@@ -3,8 +3,8 @@ package dev.moontm.giveawaybot.systems.giveaway;
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -16,18 +16,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class GiveawayManager {
 	public GiveawayManager() {
 		Runnable checksRunnable = new Runnable() {
 			public void run() {
 				try {
 					List<Giveaway> giveaways = new GiveawayRepository(Bot.dataSource.getConnection()).getActive();
+					final int[] i = {0};
 					for (Giveaway giveaway:giveaways) {
 						//Check if Guild still exists
 						Guild guild = Bot.jda.getGuildById(giveaway.getGuildId());
 						if (guild == null) {
 							new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
 							Bot.giveawayStateManager.cancelSchedule(giveaway);
+							i[0]++;
 							continue;
 						}
 						//Check if Channel still exists
@@ -35,6 +38,7 @@ public class GiveawayManager {
 						if (channel == null) {
 							new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
 							Bot.giveawayStateManager.cancelSchedule(giveaway);
+							i[0]++;
 							continue;
 						}
 						//Check if Message still exists
@@ -42,12 +46,14 @@ public class GiveawayManager {
 							try {
 								new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
 								Bot.giveawayStateManager.cancelSchedule(giveaway);
+								i[0]++;
 							} catch (SQLException ex) {
 								e.printStackTrace();
 							}
 						});
-						if (giveaway.getDueAt().before(Timestamp.from(Instant.now()))) Bot.giveawayStateManager.triggerJob(giveaway);
+						if (giveaway.getDueAt().before(Timestamp.from(Instant.now()))) Bot.giveawayStateManager.triggerJob(giveaway); i[0]++;
 					}
+					log.info("Made Changes to {} Giveaways.", i[0]);
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
