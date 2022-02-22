@@ -37,6 +37,7 @@ public class GiveawayRepository {
 			giveaway.setId(rs.getInt("id"));
 		}
 		log.info("Inserted new Giveaway: {}", giveaway);
+		this.con.close();
 		return giveaway;
 	}
 
@@ -46,6 +47,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET active = FALSE WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, id);
 		statement.executeUpdate();
+		this.con.close();
 	}
 
 	public Giveaway updateParticipants(Giveaway old, long[] participants) throws SQLException {
@@ -55,6 +57,7 @@ public class GiveawayRepository {
 		int rows = statement.executeUpdate();
 		if (rows == 0) throw new SQLException("Could not update Meeting participants. Meeting: " + old);
 		old.setParticipants(participants);
+		this.con.close();
 		return old;
 	}
 
@@ -65,6 +68,7 @@ public class GiveawayRepository {
 		int rows = statement.executeUpdate();
 		if (rows == 0) throw new SQLException("Could not update Meeting winners. Meeting: " + old);
 		old.setWinners(winners);
+		this.con.close();
 		return old;
 	}
 
@@ -75,6 +79,7 @@ public class GiveawayRepository {
 		int rows = statement.executeUpdate();
 		if (rows == 0) throw new SQLException("Could not update Meeting winners. Meeting: " + old);
 		old.setMessageId(messageId);
+		this.con.close();
 		return old;
 	}
 
@@ -89,6 +94,7 @@ public class GiveawayRepository {
 			giveaway = this.readGiveaway(rs);
 		}
 		rs.close();
+		this.con.close();
 		return Optional.ofNullable(giveaway);
 	}
 
@@ -100,6 +106,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -112,6 +119,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -124,6 +132,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -136,6 +145,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -148,6 +158,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -160,6 +171,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -172,6 +184,7 @@ public class GiveawayRepository {
 			giveaways.add(this.readGiveaway(rs));
 		}
 		rs.close();
+		this.con.close();
 		return giveaways;
 	}
 
@@ -184,6 +197,7 @@ public class GiveawayRepository {
 			giveaway = this.readGiveaway(rs);
 		}
 		rs.close();
+		this.con.close();
 		return Optional.ofNullable(giveaway);
 	}
 
@@ -201,6 +215,7 @@ public class GiveawayRepository {
 		giveaway.setWinnerPrize(rs.getString("winner_prize"));
 		giveaway.setWinnerAmount(rs.getInt("winner_amount"));
 		giveaway.setActive(rs.getBoolean("active"));
+		this.con.close();
 		return giveaway;
 	}
 
