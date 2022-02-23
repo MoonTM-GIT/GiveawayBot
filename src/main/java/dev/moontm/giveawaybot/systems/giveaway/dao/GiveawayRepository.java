@@ -17,6 +17,13 @@ public class GiveawayRepository {
 		con = connection;
 	}
 
+	/**
+	 * Inserts the given {@link Giveaway} into the Database.
+	 *
+	 * @param giveaway The {@link Giveaway} to insert.
+	 * @return The {@link Giveaway}, with ID.
+	 * @throws SQLException If anything goes wrong,
+	 */
 	public Giveaway insert(Giveaway giveaway) throws SQLException {
 		PreparedStatement statement = con.prepareStatement("INSERT INTO giveaways (guild_id, channel_id, hosted_by, created_at, due_at, winner_prize, winner_amount) VALUES (?, ?, ?, ?, ?, ?, ?)",
 				Statement.RETURN_GENERATED_KEYS
@@ -42,6 +49,12 @@ public class GiveawayRepository {
 
 	//UPDATING:
 
+	/**
+	 * Marks the given {@link Giveaway} as inactive.
+	 *
+	 * @param id The {@link Giveaway}'s ID.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public void markInactive(long id) throws SQLException {
 		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET active = FALSE WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, id);
@@ -49,6 +62,14 @@ public class GiveawayRepository {
 		this.con.close();
 	}
 
+	/**
+	 * Updates the {@link Giveaway}'s participants.
+	 *
+	 * @param old The old {@link Giveaway}.
+	 * @param participants The array of participant user-IDs.
+	 * @return The updated {@link Giveaway}.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public Giveaway updateParticipants(Giveaway old, long[] participants) throws SQLException {
 		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET participants = ? WHERE id = ?");
 		statement.setArray(1, con.createArrayOf("BIGINT", Arrays.stream(participants).mapToObj(o -> (Object) o).toArray()));
@@ -60,6 +81,14 @@ public class GiveawayRepository {
 		return old;
 	}
 
+	/**
+	 * Updates the {@link Giveaway}'s winners.
+	 *
+	 * @param old The old {@link Giveaway}.
+	 * @param winners The array of winner user-IDs.
+	 * @return The updated {@link Giveaway}.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public Giveaway updateWinners(Giveaway old, long[] winners) throws SQLException {
 		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET winners = ? WHERE id = ?");
 		statement.setArray(1, con.createArrayOf("BIGINT", Arrays.stream(winners).mapToObj(o -> (Object) o).toArray()));
@@ -71,6 +100,14 @@ public class GiveawayRepository {
 		return old;
 	}
 
+	/**
+	 * Updates the {@link Giveaway}'s Message.
+	 *
+	 * @param old The old {@link Giveaway}.
+	 * @param messageId The new message id.
+	 * @return The updated {@link Giveaway}
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public Giveaway updateMessage(Giveaway old, long messageId) throws SQLException {
 		PreparedStatement statement = con.prepareStatement("UPDATE giveaways SET message_id = ? WHERE id = ?");
 		statement.setLong(1, messageId);
@@ -84,6 +121,13 @@ public class GiveawayRepository {
 
 	//GETTING:
 
+	/**
+	 * Gets a giveaway by it's ID.
+	 *
+	 * @param id The ID of the {@link Giveaway}.
+	 * @return An {@link Optional} with the {@link Giveaway}.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public Optional<Giveaway> getById(long id) throws SQLException {
 		Giveaway giveaway = null;
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
@@ -97,6 +141,12 @@ public class GiveawayRepository {
 		return Optional.ofNullable(giveaway);
 	}
 
+	/**
+	 * Gets a {@link List} of active {@link Giveaway}s.
+	 *
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getActive() throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE active = TRUE", Statement.RETURN_GENERATED_KEYS);
@@ -107,6 +157,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all active giveaways the user is hosting.
+	 *
+	 * @param hostId The user id of the host.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getActiveByHostId(long hostId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE hosted_by = ? AND active = TRUE", Statement.RETURN_GENERATED_KEYS);

@@ -35,6 +35,13 @@ public class ModalSubmitListener extends ListenerAdapter {
 		}
 	}
 
+	/**
+	 * This is used when the giveaway creation modal is submitted.
+	 * It performs various checks and then creates the giveaway.
+	 *
+	 * @param event The {@link ModalInteractionEvent} that caused this.
+	 * @return A {@link WebhookMessageAction<Message>} that is returned to the user.
+	 */
 	private WebhookMessageAction<Message> handleGiveawayCreation(ModalInteractionEvent event) {
 		try (Connection con = Bot.dataSource.getConnection()) {
 
@@ -80,6 +87,12 @@ public class ModalSubmitListener extends ListenerAdapter {
 		return Responses.success(event.getHook(), "Giveaway Created!", "Successfully Created Meeting!");
 	}
 
+	/**
+	 * Builds the Embed that is sent to the channel that users that want to participate can react on.
+	 *
+	 * @param giveaway The {@link Giveaway}.
+	 * @return The built {@link MessageEmbed}
+	 */
 	private MessageEmbed buildGiveawayEmbed(Giveaway giveaway) {
 		EmbedBuilder eb = new EmbedBuilder()
 				.setTitle("Giveaway", "https://javadiscord.net")//TODO: Set Invite URL

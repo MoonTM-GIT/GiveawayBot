@@ -30,6 +30,16 @@ public class CreateGiveawaySubcommand extends SlashSubcommand implements ISlashC
 		buildCreateModal(event).queue();
 	}
 
+	/**
+	 * Builds the Giveaway-Creation Modal. Has a few options;
+	 * <ol>
+	 *     <li>The prize the winners will receive.</li>
+	 *     <li>The amount of winners.</li>
+	 *     <li>The date in the dd/MM/YYYY HH:mm format.</li>
+	 * </ol>
+	 * @param event The {@link SlashCommandInteractionEvent} that caused this.
+	 * @return The {@link ModalCallbackAction}.
+	 */
 	private ModalCallbackAction buildCreateModal(SlashCommandInteractionEvent event) {
 
 		TextInput giveawayPrize = TextInput.create("giveaway-prize", "Giveaway Prize", TextInputStyle.SHORT)

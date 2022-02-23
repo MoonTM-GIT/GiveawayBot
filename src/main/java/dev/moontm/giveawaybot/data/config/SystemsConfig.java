@@ -27,8 +27,14 @@ public class SystemsConfig {
 	 */
 	private HikariConfig hikariConfig = new HikariConfig();
 
+	/**
+	 * Configuration for everything related to giveaways.
+	 */
 	private GiveawayConfig giveawayConfig = new GiveawayConfig();
 
+	/**
+	 * Configuration for everything related to commands.
+	 */
 	private SlashCommandConfig slashCommandConfig = new SlashCommandConfig();
 
 	/**
