@@ -1,17 +1,17 @@
 package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
-import dev.moontm.giveawaybot.Constants;
-import dev.moontm.giveawaybot.command.Responses;
 import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
 import dev.moontm.giveawaybot.util.ColorUtils;
+import dev.moontm.giveawaybot.util.Responses;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 
 @Slf4j
 public class ModalSubmitListener extends ListenerAdapter {
@@ -36,11 +35,12 @@ public class ModalSubmitListener extends ListenerAdapter {
 	}
 
 	private WebhookMessageAction<Message> handleGiveawayCreation(ModalInteractionEvent event) {
-		try (Connection con = Bot.dataSource.getConnection()){
+		try (Connection con = Bot.dataSource.getConnection()) {
 
 			TextChannel giveawayChannel = Bot.jda.getTextChannelById(event.getInteraction().getModalId().split(":")[1]);
 			String giveawayPrize = event.getValue("giveaway-prize").getAsString();
-			if (!isInteger(event.getValue("giveaway-winner-amount").getAsString())) return Responses.error(event.getHook(), "Winner amount must be a number.");
+			if (!isInteger(event.getValue("giveaway-winner-amount").getAsString()))
+				return Responses.error(event.getHook(), "Winner amount must be a number.");
 			int giveawayWinnerAmount = Integer.parseInt(event.getValue("giveaway-winner-amount").getAsString());
 
 			String dateOption = event.getValue("giveaway-due-date").getAsString();
@@ -63,10 +63,11 @@ public class ModalSubmitListener extends ListenerAdapter {
 			giveawayChannel.sendMessageEmbeds(buildGiveawayEmbed(inserted)).queue(message -> {
 				try {
 					new GiveawayRepository(Bot.dataSource.getConnection()).updateMessage(inserted, message.getIdLong());
-					message.addReaction(Bot.jda.getEmoteById(Constants.emojiId)).queue();
+					message.addReaction(Bot.jda.getEmoteById(Bot.config.getSystems().getGiveawayConfig().getGiveawayParticipateEmoteId())).queue();
 				} catch (SQLException e) {
-					Responses.error(event.getHook() , "An Unexpected Error Occurred.").queue();
-				}});
+					Responses.error(event.getHook(), "An Unexpected Error Occurred.").queue();
+				}
+			});
 			Bot.giveawayStateManager.scheduleGiveaway(new GiveawayRepository(Bot.dataSource.getConnection()).getById(inserted.getId()).get());
 		} catch (SQLException e) {
 			Responses.error(event.getHook(), "An Unexpected Error Occurred.");
@@ -77,7 +78,7 @@ public class ModalSubmitListener extends ListenerAdapter {
 	private MessageEmbed buildGiveawayEmbed(Giveaway giveaway) {
 		EmbedBuilder eb = new EmbedBuilder()
 				.setTitle("Giveaway", "https://javadiscord.net")//TODO: Set Invite URL
-				.setDescription(String.format("%sx %s",giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
+				.setDescription(String.format("%sx %s", giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
 				.setColor(ColorUtils.randomPastel())
 				.setFooter(String.format("Hosted by %s | %s", Bot.jda.getUserById(giveaway.getHostedBy()).getAsTag(), giveaway.getId()))
 				.setTimestamp(giveaway.getDueAt().toLocalDateTime());

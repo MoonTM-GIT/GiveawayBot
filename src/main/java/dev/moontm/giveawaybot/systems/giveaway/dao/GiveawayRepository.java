@@ -4,7 +4,6 @@ import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,7 @@ public class GiveawayRepository {
 
 		//if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
 		ResultSet rs = statement.getGeneratedKeys();
-		if (rs.next()){
+		if (rs.next()) {
 			giveaway.setId(rs.getInt("id"));
 		}
 		log.info("Inserted new Giveaway: {}", giveaway);
@@ -102,7 +101,7 @@ public class GiveawayRepository {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE active = TRUE", Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		return giveaways;
@@ -113,7 +112,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE hosted_by = ? AND active = TRUE", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, hostId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
@@ -126,7 +125,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE hosted_by = ?", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, hostId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
@@ -139,7 +138,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE ARRAY_CONTAINS(participants, ?) = TRUE AND active = TRUE", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
@@ -152,7 +151,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE ARRAY_CONTAINS(participants, ?) = TRUE", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
@@ -165,7 +164,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE guild_id = ? AND active = TRUE", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, guildId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();
@@ -178,7 +177,7 @@ public class GiveawayRepository {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE guild_id = ?", Statement.RETURN_GENERATED_KEYS);
 		statement.setLong(1, participantId);
 		ResultSet rs = statement.executeQuery();
-		while (rs.next()){
+		while (rs.next()) {
 			giveaways.add(readGiveaway(rs));
 		}
 		rs.close();

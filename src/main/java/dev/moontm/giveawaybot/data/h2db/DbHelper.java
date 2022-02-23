@@ -3,8 +3,8 @@ package dev.moontm.giveawaybot.data.h2db;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.moontm.giveawaybot.Bot;
-import lombok.extern.slf4j.Slf4j;
 import dev.moontm.giveawaybot.data.config.BotConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 
 import java.io.IOException;

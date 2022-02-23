@@ -8,7 +8,7 @@
   subCommands:
     - name: create
       description: Create a new Giveaway in the current channel.
-  handler: dev.moontm.giveawaybot.systems.giveaway.GiveawayCommandHandler
+  handler: dev.moontm.giveawaybot.systems.commands.GiveawayCommandHandler
 #    - name: discard
 #      description: Discards a single Meeting.
 #     options:

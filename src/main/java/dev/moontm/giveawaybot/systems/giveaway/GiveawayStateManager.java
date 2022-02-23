@@ -26,7 +26,7 @@ public class GiveawayStateManager {
 			scheduler.start();
 			this.activeGiveaways = new GiveawayRepository(Bot.dataSource.getConnection()).getActive();
 
-			for (Giveaway giveaway : activeGiveaways){
+			for (Giveaway giveaway : activeGiveaways) {
 				scheduleGiveaway(giveaway);
 			}
 			log.info("Scheduled {} giveaways.", activeGiveaways.size());
@@ -52,7 +52,7 @@ public class GiveawayStateManager {
 		}
 	}
 
-	public void cancelSchedule(Giveaway giveaway){
+	public void cancelSchedule(Giveaway giveaway) {
 		try {
 			scheduler.deleteJob(JobKey.jobKey(String.valueOf(giveaway.getId())));
 		} catch (SchedulerException e) {

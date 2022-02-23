@@ -1,7 +1,8 @@
 package dev.moontm.giveawaybot;
 
+import com.dynxsty.dih4jda.DIH4JDA;
+import com.dynxsty.dih4jda.DIH4JDABuilder;
 import com.zaxxer.hikari.HikariDataSource;
-import dev.moontm.giveawaybot.command.InteractionHandler;
 import dev.moontm.giveawaybot.data.config.BotConfig;
 import dev.moontm.giveawaybot.data.h2db.DbHelper;
 import dev.moontm.giveawaybot.listener.ModalSubmitListener;
@@ -36,13 +37,6 @@ public class Bot {
 	 */
 	public static BotConfig config;
 	/**
-	 * A reference to the slash command listener that's the main point of
-	 * interaction for users with this bot. It's marked as a publicly accessible
-	 * reference so that {@link InteractionHandler#registerCommands} can
-	 * be called wherever it's needed.
-	 */
-	public static InteractionHandler interactionHandler;
-	/**
 	 * A reference to the data source that provides access to the relational
 	 * database that this bot users for certain parts of the application. Use
 	 * this to obtain a connection and perform transactions.
@@ -64,7 +58,7 @@ public class Bot {
 	 * <ol>
 	 *     <li>Setting the time zone to UTC, to keep our sanity when working with times.</li>
 	 *     <li>Loading the configuration JSON file.</li>
-	 *     <li>Initializing the {@link InteractionHandler} listener (which reads command data from a YAML file).</li>
+	 *     <li>Initializing the {@link DIH4JDA} interaction-handler.</li>
 	 *     <li>Creating and configuring the {@link JDA} instance that enables the bot's Discord connectivity.</li>
 	 *     <li>Adding event listeners to the bot.</li>
 	 * </ol>
@@ -76,21 +70,23 @@ public class Bot {
 		TimeZone.setDefault(TimeZone.getTimeZone(ZoneOffset.UTC));
 		config = new BotConfig(Path.of("config"));
 		dataSource = DbHelper.initDataSource(config);
-		interactionHandler = new InteractionHandler();
 		asyncPool = Executors.newScheduledThreadPool(config.getSystems().getAsyncPoolSize());
 		jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.setChunkingFilter(ChunkingFilter.ALL)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
-				.addEventListeners(interactionHandler)
+				//.addEventListeners()
+				.build();
+		DIH4JDA dih4JDA = DIH4JDABuilder
+				.setJDA(jda)
+				.setCommandsPackage("dev.moontm.giveawaybot.systems.commands")
 				.build();
 		addEventListeners(jda);
 	}
 
 	/**
-	 * Adds all the bot's event listeners to the JDA instance, except for the
-	 * main {@link InteractionHandler} listener.
+	 * Adds all the bot's event listeners to the JDA instance.
 	 *
 	 * @param jda The JDA bot instance to add listeners to.
 	 */

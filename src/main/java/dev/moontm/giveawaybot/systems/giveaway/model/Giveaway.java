@@ -3,7 +3,6 @@ package dev.moontm.giveawaybot.systems.giveaway.model;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 public class Giveaway {

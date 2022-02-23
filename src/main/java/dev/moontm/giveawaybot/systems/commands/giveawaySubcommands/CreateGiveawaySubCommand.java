@@ -1,29 +1,33 @@
-package dev.moontm.giveawaybot.systems.giveaway.subcommands;
+package dev.moontm.giveawaybot.systems.commands.giveawaySubcommands;
 
-import dev.moontm.giveawaybot.command.ResponseException;
-import dev.moontm.giveawaybot.command.Responses;
-import dev.moontm.giveawaybot.command.interfaces.ISlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash.dao.SlashSubcommand;
+import dev.moontm.giveawaybot.util.Responses;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.text.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
-import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 
-public class CreateGiveawaySubCommand implements ISlashCommand {
+public class CreateGiveawaySubCommand extends SlashSubcommand implements ISlashCommand {
+
+	public CreateGiveawaySubCommand() {
+		this.setSubcommandData(new SubcommandData("create", "Start Giveaway creation process for the current channel."));
+	}
+
 	@Override
-	public ReplyCallbackAction handleSlashCommandInteraction(SlashCommandInteractionEvent event) throws ResponseException {
+	public void handleSlashCommandInteraction(SlashCommandInteractionEvent event) {
 		if (!canCreateMeetings(event.getMember())) {
-			return Responses.error(event, "Unfortunately you are not able to create a command at the moment.");
+			Responses.error(event, "Unfortunately you are not able to create a command at the moment.").queue();
 		}
 		if (event.getChannelType() != ChannelType.TEXT) {
-			return Responses.error(event, "Giveaways may only be created in Text Channels.");
+			Responses.error(event, "Giveaways may only be created in Text Channels.").queue();
 		}
-		this.buildCreateModal(event).queue();
-		return null;
+		buildCreateModal(event).queue();
 	}
 
 	private ModalCallbackAction buildCreateModal(SlashCommandInteractionEvent event) {
@@ -51,7 +55,6 @@ public class CreateGiveawaySubCommand implements ISlashCommand {
 
 		return event.replyModal(modal);
 	}
-
 
 	private boolean canCreateMeetings(Member member) {
 		return !member.getUser().isSystem() && !member.getUser().isBot() && !member.isPending() && !member.isTimedOut();
