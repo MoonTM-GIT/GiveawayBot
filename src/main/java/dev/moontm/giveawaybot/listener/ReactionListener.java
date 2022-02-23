@@ -43,6 +43,7 @@ public class ReactionListener extends ListenerAdapter {
 	}
 
 	public boolean canEnterGiveaway(User user) {
-		return !user.isBot() && !user.isSystem();
+		if(user.isBot() || user.isSystem()) return false;
+		return true;
 	}
 }

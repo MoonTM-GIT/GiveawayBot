@@ -145,7 +145,8 @@ public class GiveawayManager {
 	 * @return False if the {@link User} is a Bot or the System.
 	 */
 	public boolean canParticipate(User user) {
-		return !user.isBot() && !user.isSystem();
+		if(user.isBot() || user.isSystem()) return false;
+		return true;
 	}
 
 	/**
