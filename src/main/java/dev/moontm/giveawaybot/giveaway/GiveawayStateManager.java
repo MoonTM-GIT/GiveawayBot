@@ -1,9 +1,9 @@
-package dev.moontm.giveawaybot.systems.giveaway;
+package dev.moontm.giveawaybot.giveaway;
 
 import dev.moontm.giveawaybot.Bot;
-import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
-import dev.moontm.giveawaybot.systems.giveaway.jobs.GiveawayStartJob;
-import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
+import dev.moontm.giveawaybot.giveaway.jobs.GiveawayStartJob;
+import dev.moontm.giveawaybot.giveaway.model.Giveaway;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;

@@ -1,6 +1,6 @@
-package dev.moontm.giveawaybot.systems.giveaway.dao;
+package dev.moontm.giveawaybot.giveaway.dao;
 
-import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import dev.moontm.giveawaybot.giveaway.model.Giveaway;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;

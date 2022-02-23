@@ -1,4 +1,4 @@
-package dev.moontm.giveawaybot.systems.giveaway.model;
+package dev.moontm.giveawaybot.giveaway.model;
 
 import lombok.Data;
 

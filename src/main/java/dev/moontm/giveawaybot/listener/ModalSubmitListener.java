@@ -1,8 +1,8 @@
 package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
-import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
-import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
+import dev.moontm.giveawaybot.giveaway.model.Giveaway;
 import dev.moontm.giveawaybot.util.ColorUtils;
 import dev.moontm.giveawaybot.util.Responses;
 import lombok.extern.slf4j.Slf4j;

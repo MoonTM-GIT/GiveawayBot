@@ -8,8 +8,8 @@ import dev.moontm.giveawaybot.data.h2db.DbHelper;
 import dev.moontm.giveawaybot.listener.ModalSubmitListener;
 import dev.moontm.giveawaybot.listener.ReactionListener;
 import dev.moontm.giveawaybot.listener.StartupListener;
-import dev.moontm.giveawaybot.systems.giveaway.GiveawayManager;
-import dev.moontm.giveawaybot.systems.giveaway.GiveawayStateManager;
+import dev.moontm.giveawaybot.giveaway.GiveawayManager;
+import dev.moontm.giveawaybot.giveaway.GiveawayStateManager;
 import dev.moontm.giveawaybot.tasks.PresenceUpdater;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -78,7 +78,7 @@ public class Bot {
 				//.addEventListeners()
 				.build();
 		DIH4JDABuilder.setJDA(jda)
-				.setCommandsPackage("dev.moontm.giveawaybot.systems.commands")
+				.setCommandsPackage("dev.moontm.giveawaybot.commands")
 				.build();
 		addEventListeners(jda);
 	}

@@ -1,4 +1,4 @@
-package dev.moontm.giveawaybot.systems.commands;
+package dev.moontm.giveawaybot.commands;
 
 import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
 import dev.moontm.giveawaybot.Bot;

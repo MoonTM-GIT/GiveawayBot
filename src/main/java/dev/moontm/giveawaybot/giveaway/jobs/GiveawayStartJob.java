@@ -1,8 +1,8 @@
-package dev.moontm.giveawaybot.systems.giveaway.jobs;
+package dev.moontm.giveawaybot.giveaway.jobs;
 
 import dev.moontm.giveawaybot.Bot;
-import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
-import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
+import dev.moontm.giveawaybot.giveaway.model.Giveaway;
 import dev.moontm.giveawaybot.util.ColorUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;

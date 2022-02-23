@@ -1,8 +1,8 @@
 package dev.moontm.giveawaybot.listener;
 
 import dev.moontm.giveawaybot.Bot;
-import dev.moontm.giveawaybot.systems.giveaway.dao.GiveawayRepository;
-import dev.moontm.giveawaybot.systems.giveaway.model.Giveaway;
+import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
+import dev.moontm.giveawaybot.giveaway.model.Giveaway;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
