@@ -1,5 +1,10 @@
+/**
+ * This File was initially copied from the JavaBot (https://github.com/Java-Discord/JavaBot) and might be
+ * modified to better fit this project's purpose.
+ */
 package dev.moontm.giveawaybot.tasks;
 
+import dev.moontm.giveawaybot.util.DataUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -75,9 +80,11 @@ public class PresenceUpdater extends ListenerAdapter {
 	 */
 	public static PresenceUpdater standardActivities() {
 		return new PresenceUpdater(List.of(
-				jda -> Activity.watching(String.format("amogus"))
-				//TODO: Add Activities
-		), 35, TimeUnit.SECONDS);
+				jda -> Activity.watching(String.format("%d Guilds", jda.getGuilds().size())),
+				jda -> Activity.competing(String.format("%d Active Giveaways", DataUtil.getActiveGiveawayCount())),
+				jda -> Activity.watching(String.format("%d Total Giveaways", DataUtil.getTotalGiveawayCount())),
+				jda -> Activity.listening("https://github.com/MoonTM-GIT/GiveawayBot")
+		), 30, TimeUnit.SECONDS);
 	}
 
 	/**

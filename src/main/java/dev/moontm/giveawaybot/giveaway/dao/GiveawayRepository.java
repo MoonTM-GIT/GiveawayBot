@@ -296,6 +296,50 @@ public class GiveawayRepository {
 	}
 
 	/**
+	 * Gets the amount of active Giveaways in the Database.
+	 *
+	 * @return The amount.
+	 */
+	public int getActiveGiveawayCount() {
+		try {
+			int count = 0;
+			PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM giveaways WHERE active = TRUE", Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			rs.close();
+			this.con.close();
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * Gets total amount of Giveaways in the Database.
+	 *
+	 * @return The amount.
+	 */
+	public int getTotalGiveawayCount() {
+		try {
+			int count = 0;
+			PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM giveaways", Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			rs.close();
+			this.con.close();
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
 	 * Reads the given {@link ResultSet} into a {@link Giveaway}
 	 *
 	 * @param rs The {@link ResultSet}.
