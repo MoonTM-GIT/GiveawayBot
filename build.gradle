@@ -30,7 +30,7 @@ dependencies {
     // H2 Database
     implementation group: 'com.h2database', name: 'h2', version: '2.1.210'
     implementation 'com.zaxxer:HikariCP:5.0.1'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
     // Quartz scheduler
     implementation 'org.quartz-scheduler:quartz:2.3.2'
