@@ -4,6 +4,8 @@
 
 A Discord Giveaway Bot initially based on the [JavaBot](https://github.com/Java-Discord/JavaBot), now using [Dynxsty's Interaction Handler](https://github.com/DynxstyGIT/DIH4JDA) for Interactions.
 
+Still WIP, will be fully released when all planned features are implemented.
+
 # Giveaway Creation
 To start a giveaway, use the `/giveaway create` command in a text channel. This will open a modal similar to this:
 
