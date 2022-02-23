@@ -22,6 +22,11 @@ public class SystemsConfig {
 	private int asyncPoolSize = 4;
 
 	/**
+	 * Id of the user that is allowed to use the /dev command.
+	 */
+	private long adminId = 0;
+
+	/**
 	 * Configuration for the Hikari connection pool that's used for the bot's
 	 * SQL data source.
 	 */
