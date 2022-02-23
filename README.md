@@ -1,4 +1,4 @@
-<img align="right" src="https://github.com/MoonTM-GIT/GiveawayBot/blob/main/.github/logo.png?raw=true" height="200" width="200">
+<img align="right" src="https://github.com/MoonTM-GIT/GiveawayBot/blob/main/.github/icon.png?raw=true" height="200" width="200">
 
 # GiveawayBot
 
