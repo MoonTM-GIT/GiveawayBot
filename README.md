@@ -1,13 +1,15 @@
-<img align="right" src="https://github.com/MoonTM-GIT/JDA/.github/logo.png?raw=true" height="200" width="200">
+<img align="right" src="https://github.com/MoonTM-GIT/GiveawayBot/blob/main/.github/icon.png?raw=true" height="200" width="200">
 
 # GiveawayBot
 
-A Giveaway Bot initially based on the [JavaBot](https://github.com/Java-Discord/JavaBot), now using [Dynxsty's Interaction Handler](https://github.com/DynxstyGIT/DIH4JDA) for Interactions.
+A Discord Giveaway Bot initially based on the [JavaBot](https://github.com/Java-Discord/JavaBot), now using [Dynxsty's Interaction Handler](https://github.com/DynxstyGIT/DIH4JDA) for Interactions.
+
+Still WIP, will be fully released when all planned features are implemented.
 
 # Giveaway Creation
 To start a giveaway, use the `/giveaway create` command in a text channel. This will open a modal similar to this:
 
-<img src="https://github.com/MoonTM-GIT/JDA/.github/modal.png?raw=true" height="436" width="437">
+<img src="https://github.com/MoonTM-GIT/GiveawayBot/blob/main/.github/modal.png?raw=true" height="436" width="437">
 
 - **Giveaway Prize**\
  Enter what you want to give away here.
