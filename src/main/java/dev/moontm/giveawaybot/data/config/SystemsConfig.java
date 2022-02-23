@@ -42,7 +42,8 @@ public class SystemsConfig {
 
 	@Data
 	public static class GiveawayConfig {
-		private long giveawayParticipateEmoteId = 0;
+		private long participateEmoteId = 0;
+		private String  congratulateEmote = "<(a:)name:id>";
 	}
 
 	@Data

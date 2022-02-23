@@ -50,8 +50,7 @@ public class Bot {
 	public static GiveawayStateManager giveawayStateManager;
 	public static GiveawayManager giveawayManager;
 
-	private Bot() {
-	}
+	private Bot() {}
 
 	/**
 	 * The main method that starts the bot. This involves a few steps:

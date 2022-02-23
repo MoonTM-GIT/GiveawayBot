@@ -18,7 +18,7 @@ public class ReactionListener extends ListenerAdapter {
 	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		try {
 			Optional<Giveaway> giveawayOptional = new GiveawayRepository(Bot.dataSource.getConnection()).getByMessageId(event.getMessageIdLong());
-			if (giveawayOptional.isEmpty() || event.getReactionEmote().getIdLong() != Bot.config.getSystems().getGiveawayConfig().getGiveawayParticipateEmoteId() || !canEnterGiveaway(event.getUser()))
+			if (giveawayOptional.isEmpty() || event.getReactionEmote().getIdLong() != Bot.config.getSystems().getGiveawayConfig().getParticipateEmoteId() || !canEnterGiveaway(event.getUser()))
 				return;
 			Giveaway giveaway = giveawayOptional.get();
 			if (Arrays.stream(giveaway.getParticipants()).anyMatch(x -> x == event.getUserIdLong())) return;
@@ -32,7 +32,7 @@ public class ReactionListener extends ListenerAdapter {
 	public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
 		try {
 			Optional<Giveaway> giveawayOptional = new GiveawayRepository(Bot.dataSource.getConnection()).getByMessageId(event.getMessageIdLong());
-			if (giveawayOptional.isEmpty() || event.getReactionEmote().getIdLong() != Bot.config.getSystems().getGiveawayConfig().getGiveawayParticipateEmoteId() || !canEnterGiveaway(event.getUser()))
+			if (giveawayOptional.isEmpty() || event.getReactionEmote().getIdLong() != Bot.config.getSystems().getGiveawayConfig().getParticipateEmoteId() || !canEnterGiveaway(event.getUser()))
 				return;
 			Giveaway giveaway = giveawayOptional.get();
 			if (Arrays.stream(giveaway.getParticipants()).noneMatch(x -> x == event.getUserIdLong())) return;
