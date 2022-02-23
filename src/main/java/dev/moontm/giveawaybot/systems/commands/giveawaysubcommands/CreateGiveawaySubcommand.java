@@ -1,4 +1,4 @@
-package dev.moontm.giveawaybot.systems.commands.giveawaySubcommands;
+package dev.moontm.giveawaybot.systems.commands.giveawaysubcommands;
 
 import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
 import com.dynxsty.dih4jda.commands.interactions.slash.dao.SlashSubcommand;
@@ -13,9 +13,9 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
 
-public class CreateGiveawaySubCommand extends SlashSubcommand implements ISlashCommand {
+public class CreateGiveawaySubcommand extends SlashSubcommand implements ISlashCommand {
 
-	public CreateGiveawaySubCommand() {
+	public CreateGiveawaySubcommand() {
 		this.setSubcommandData(new SubcommandData("create", "Start Giveaway creation process for the current channel."));
 	}
 

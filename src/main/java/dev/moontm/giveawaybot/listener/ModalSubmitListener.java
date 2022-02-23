@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Slf4j
 public class ModalSubmitListener extends ListenerAdapter {
@@ -44,9 +45,14 @@ public class ModalSubmitListener extends ListenerAdapter {
 			int giveawayWinnerAmount = Integer.parseInt(event.getValue("giveaway-winner-amount").getAsString());
 
 			String dateOption = event.getValue("giveaway-due-date").getAsString();
-			LocalDateTime dueAt = LocalDateTime.parse(dateOption, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+			LocalDateTime dueAt;
+			try {
+				dueAt = LocalDateTime.parse(dateOption, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+			} catch (DateTimeParseException e) {
+				return Responses.error(event.getHook(), "Couldn't parse date. Please follow the following pattern:`dd/MM/YYYY HH:mm (Example: 13/09/2019 13:05)`.");
+			}
 			if (dueAt.isBefore(LocalDateTime.now()) || dueAt.isAfter(LocalDateTime.now().plusYears(2))) {
-				return Responses.error(event.getHook(), "The Date you've entered is invalid.");
+				return Responses.error(event.getHook(), "You've provided an invalid date! The date must be somewhere between now and 2 years from now. Please try again.");
 			}
 
 			Giveaway giveaway = new Giveaway();
@@ -58,12 +64,11 @@ public class ModalSubmitListener extends ListenerAdapter {
 			giveaway.setWinnerPrize(giveawayPrize);
 			giveaway.setWinnerAmount(giveawayWinnerAmount);
 
-			GiveawayRepository repo = new GiveawayRepository(con);
-			Giveaway inserted = repo.insert(giveaway);
+			Giveaway inserted = new GiveawayRepository(con).insert(giveaway);
 			giveawayChannel.sendMessageEmbeds(buildGiveawayEmbed(inserted)).queue(message -> {
 				try {
 					new GiveawayRepository(Bot.dataSource.getConnection()).updateMessage(inserted, message.getIdLong());
-					message.addReaction(Bot.jda.getEmoteById(Bot.config.getSystems().getGiveawayConfig().getGiveawayParticipateEmoteId())).queue();
+					message.addReaction(Bot.jda.getEmoteById(Bot.config.getSystems().getGiveawayConfig().getParticipateEmoteId())).queue();
 				} catch (SQLException e) {
 					Responses.error(event.getHook(), "An Unexpected Error Occurred.").queue();
 				}
@@ -72,17 +77,17 @@ public class ModalSubmitListener extends ListenerAdapter {
 		} catch (SQLException e) {
 			Responses.error(event.getHook(), "An Unexpected Error Occurred.");
 		}
-		return Responses.success(event.getHook(), "Success!", "Successfully Created Meeting!");
+		return Responses.success(event.getHook(), "Giveaway Created!", "Successfully Created Meeting!");
 	}
 
 	private MessageEmbed buildGiveawayEmbed(Giveaway giveaway) {
 		EmbedBuilder eb = new EmbedBuilder()
 				.setTitle("Giveaway", "https://javadiscord.net")//TODO: Set Invite URL
 				.setDescription(String.format("%sx %s", giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
+				.addField("Concludes", String.format("<t:%d:R>", giveaway.getDueAt().getTime()), true) //TODO:Test when commands work
 				.setColor(ColorUtils.randomPastel())
 				.setFooter(String.format("Hosted by %s | %s", Bot.jda.getUserById(giveaway.getHostedBy()).getAsTag(), giveaway.getId()))
 				.setTimestamp(giveaway.getDueAt().toLocalDateTime());
-
 		return eb.build();
 	}
 

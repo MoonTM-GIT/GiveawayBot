@@ -1,6 +1,7 @@
 package dev.moontm.giveawaybot.systems.commands;
 
 import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
+import dev.moontm.giveawaybot.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -16,7 +17,7 @@ public class PingCommand implements ISlashCommand {
 		String botImage = event.getJDA().getSelfUser().getAvatarUrl();
 		var e = new EmbedBuilder()
 				.setAuthor(gatewayPing + "ms", null, botImage)
-				.setColor(Color.decode("#2F3136"))
+				.setColor(Bot.config.getSystems().getSlashCommandConfig().getDefaultColor())
 				.build();
 		event.replyEmbeds(e).queue();
 	}

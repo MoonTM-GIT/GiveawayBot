@@ -17,15 +17,14 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 @Slf4j
 public class GiveawayStateManager {
-	private List<Giveaway> activeGiveaways;
 	private Scheduler scheduler;
 
 	public GiveawayStateManager() {
 		try {
 			scheduler = new StdSchedulerFactory().getScheduler();
 			scheduler.start();
-			this.activeGiveaways = new GiveawayRepository(Bot.dataSource.getConnection()).getActive();
 
+			List<Giveaway> activeGiveaways = new GiveawayRepository(Bot.dataSource.getConnection()).getActive();
 			for (Giveaway giveaway : activeGiveaways) {
 				scheduleGiveaway(giveaway);
 			}
@@ -55,14 +54,6 @@ public class GiveawayStateManager {
 	public void cancelSchedule(Giveaway giveaway) {
 		try {
 			scheduler.deleteJob(JobKey.jobKey(String.valueOf(giveaway.getId())));
-		} catch (SchedulerException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void triggerJob(Giveaway giveaway) {
-		try {
-			scheduler.triggerJob(JobKey.jobKey(String.valueOf(giveaway.getId())));
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}

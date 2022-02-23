@@ -10,7 +10,7 @@ public class AutoCompleteListener extends ListenerAdapter {
 	@Override
 	public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
 		switch (event.getName()) {
-			//TODO:Implement
+			//TODO:Implement for Meeting-Delete Command
 			default -> throw new IllegalStateException("Unknown Command: " + event.getName());
 		}
 	}

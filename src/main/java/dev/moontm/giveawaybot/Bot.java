@@ -78,8 +78,7 @@ public class Bot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				//.addEventListeners()
 				.build();
-		DIH4JDA dih4JDA = DIH4JDABuilder
-				.setJDA(jda)
+		DIH4JDABuilder.setJDA(jda)
 				.setCommandsPackage("dev.moontm.giveawaybot.systems.commands")
 				.build();
 		addEventListeners(jda);

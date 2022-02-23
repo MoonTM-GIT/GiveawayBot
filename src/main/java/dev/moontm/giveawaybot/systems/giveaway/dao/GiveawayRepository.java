@@ -29,8 +29,8 @@ public class GiveawayRepository {
 		statement.setString(6, giveaway.getWinnerPrize());
 		statement.setInt(7, giveaway.getWinnerAmount());
 		statement.executeUpdate();
-
-		//if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
+		int rows = statement.executeUpdate();
+		if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
 		ResultSet rs = statement.getGeneratedKeys();
 		if (rs.next()) {
 			giveaway.setId(rs.getInt("id"));
@@ -226,7 +226,7 @@ public class GiveawayRepository {
 		return longArray;
 	}
 
-	public static long[] convertObjectArraytToLongArray(Object[] array) throws SQLException {
+	public static long[] convertObjectArrayToLongArray(Object[] array) throws SQLException {
 		long[] emptyArray = new long[0];
 		if (array == null) return emptyArray;
 		long[] longArray = new long[array.length];
