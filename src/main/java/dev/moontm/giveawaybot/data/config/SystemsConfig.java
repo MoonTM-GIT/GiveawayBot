@@ -26,6 +26,12 @@ public class SystemsConfig {
 	 */
 	private long adminId = 0;
 
+
+	/**
+	 * The Bot's Invite limk.
+	 */
+	private String botInviteLike = "";
+
 	/**
 	 * Configuration for the Hikari connection pool that's used for the bot's
 	 * SQL data source.

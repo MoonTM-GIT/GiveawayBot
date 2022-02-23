@@ -3,7 +3,6 @@ package dev.moontm.giveawaybot.giveaway.jobs;
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.giveaway.model.Giveaway;
-import dev.moontm.giveawaybot.util.ColorUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import org.quartz.Job;
@@ -17,6 +16,18 @@ import java.util.Optional;
 import java.util.Random;
 
 public class GiveawayStartJob implements Job {
+	/**
+	 * This is ran when a Giveaway should conclude, this has a few steps:
+	 * <ol>
+	 *     <li>Retrieve the Participants from Discord.</li>
+	 *     <li>Randomly draw the winners.</li>
+	 *     <li>Edit the Giveaway Message.</li>
+	 *     <li>Update the Database.</li>
+	 * </ol>
+	 *
+	 * @param context The {@link JobExecutionContext}.
+	 * @throws JobExecutionException If anything goes wrong.
+	 */
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
@@ -60,6 +71,13 @@ public class GiveawayStartJob implements Job {
 		}
 	}
 
+	/**
+	 * Randomly draws a given amount of {@link User}s from a list.
+	 *
+	 * @param participants The {@link List} of {@link User}s to draw from.
+	 * @param amount The amount of {@link User}s to draw.
+	 * @return The {@link List} of {@link User}s that we're drawn.
+	 */
 	public List<User> drawWinners(List<User> participants, int amount) {
 		Random random = new Random();
 		List<User> winners = new ArrayList<>();
@@ -84,10 +102,10 @@ public class GiveawayStartJob implements Job {
 		Bot.jda.retrieveUserById(giveaway.getHostedBy()).queue(user -> hostTag[0] = user.getAsTag());
 
 		EmbedBuilder eb = new EmbedBuilder()
-				.setTitle("Giveaway Concluded!", "https://javadiscord.net")//TODO: Set Invite URL
+				.setTitle("Giveaway Concluded!", Bot.config.getSystems().getBotInviteLike())
 				.setDescription(String.format("%sx %s", giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
 				.addField("Winners", sb.toString(), true)
-				.setColor(ColorUtils.randomPastel())
+				.setColor(Bot.config.getSystems().getSlashCommandConfig().getDefaultColor())
 				.setFooter(String.format("Hosted by %s | %s", hostTag[0], giveaway.getId()))
 				.setTimestamp(giveaway.getDueAt().toLocalDateTime());
 		return eb.build();

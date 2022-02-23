@@ -19,6 +19,10 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class GiveawayStateManager {
 	private Scheduler scheduler;
 
+	/**
+	 * Creates a {@link GiveawayStateManager} instance.
+	 * This manages everything related to the {@link org.quartz.core.QuartzScheduler}.
+	 */
 	public GiveawayStateManager() {
 		try {
 			scheduler = new StdSchedulerFactory().getScheduler();
@@ -34,6 +38,11 @@ public class GiveawayStateManager {
 		}
 	}
 
+	/**
+	 * Schedules the given {@link Giveaway}.
+	 *
+	 * @param giveaway The {@link Giveaway} to schedule.
+	 */
 	public void scheduleGiveaway(Giveaway giveaway) {
 		JobDetail job = newJob(GiveawayStartJob.class)
 				.withIdentity(String.valueOf(giveaway.getId()))
@@ -51,6 +60,11 @@ public class GiveawayStateManager {
 		}
 	}
 
+	/**
+	 * Deletes a {@link Giveaway} schedule.
+	 *
+	 * @param giveaway The {@link Giveaway} to cancel.
+	 */
 	public void cancelSchedule(Giveaway giveaway) {
 		try {
 			scheduler.deleteJob(JobKey.jobKey(String.valueOf(giveaway.getId())));

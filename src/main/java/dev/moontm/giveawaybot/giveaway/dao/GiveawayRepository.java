@@ -175,6 +175,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all giveaways the user has hosted.
+	 *
+	 * @param hostId The user id of the host.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getAllByHostId(long hostId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE hosted_by = ?", Statement.RETURN_GENERATED_KEYS);
@@ -188,6 +195,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all active giveaways the user is participating in.
+	 *
+	 * @param participantId The user id of the participant.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getActiveByParticipantId(long participantId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE ARRAY_CONTAINS(participants, ?) = TRUE AND active = TRUE", Statement.RETURN_GENERATED_KEYS);
@@ -201,6 +215,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all giveaways the user has participated in.
+	 *
+	 * @param participantId The user id of the host.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getAllByParticipantId(long participantId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE ARRAY_CONTAINS(participants, ?) = TRUE", Statement.RETURN_GENERATED_KEYS);
@@ -214,6 +235,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all active giveaways in the given Guild.
+	 *
+	 * @param guildId The id of the guild.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getActiveByGuildId(long guildId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE guild_id = ? AND active = TRUE", Statement.RETURN_GENERATED_KEYS);
@@ -227,6 +255,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets all giveaways that have been hosted in the guild.
+	 *
+	 * @param participantId The user id of the host.
+	 * @return The {@link List} of {@link Giveaway}s.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public List<Giveaway> getAllByGuildId(long participantId) throws SQLException {
 		List<Giveaway> giveaways = new ArrayList<>();
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE guild_id = ?", Statement.RETURN_GENERATED_KEYS);
@@ -240,6 +275,13 @@ public class GiveawayRepository {
 		return giveaways;
 	}
 
+	/**
+	 * Gets a Giveaway from the given Message-Id
+	 *
+	 * @param messageId The ID of the Message.
+	 * @return An {@link Optional} of the {@link Giveaway}.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public Optional<Giveaway> getByMessageId(long messageId) throws SQLException {
 		Giveaway giveaway = null;
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM giveaways WHERE message_id = ?", Statement.RETURN_GENERATED_KEYS);
@@ -253,6 +295,13 @@ public class GiveawayRepository {
 		return Optional.ofNullable(giveaway);
 	}
 
+	/**
+	 * Reads the given {@link ResultSet} into a {@link Giveaway}
+	 *
+	 * @param rs The {@link ResultSet}.
+	 * @return The {@link Giveaway}.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public static Giveaway readGiveaway(ResultSet rs) throws SQLException {
 		Giveaway giveaway = new Giveaway();
 		giveaway.setId(rs.getLong("id"));
@@ -270,6 +319,13 @@ public class GiveawayRepository {
 		return giveaway;
 	}
 
+	/**
+	 * Converts an {@link Array} to a Long-Array.
+	 *
+	 * @param array The {@link Array}.
+	 * @return The Long-Array.
+	 * @throws SQLException If anything goes wrong.
+	 */
 	public static long[] convertArrayToLongArray(Array array) throws SQLException {
 		long[] emptyArray = new long[0];
 		if (array == null) return emptyArray;
@@ -281,7 +337,13 @@ public class GiveawayRepository {
 		return longArray;
 	}
 
-	public static long[] convertObjectArrayToLongArray(Object[] array) throws SQLException {
+	/**
+	 * Converts an Object-Array to a Long-Array.
+	 *
+	 * @param array The Object-Array.
+	 * @return The Long-Array.
+	 */
+	public static long[] convertObjectArrayToLongArray(Object[] array) {
 		long[] emptyArray = new long[0];
 		if (array == null) return emptyArray;
 		long[] longArray = new long[array.length];

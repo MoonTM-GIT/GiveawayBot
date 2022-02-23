@@ -3,7 +3,6 @@ package dev.moontm.giveawaybot.listener;
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.giveaway.model.Giveaway;
-import dev.moontm.giveawaybot.util.ColorUtils;
 import dev.moontm.giveawaybot.util.Responses;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -95,10 +94,10 @@ public class ModalSubmitListener extends ListenerAdapter {
 	 */
 	private MessageEmbed buildGiveawayEmbed(Giveaway giveaway) {
 		EmbedBuilder eb = new EmbedBuilder()
-				.setTitle("Giveaway", "https://javadiscord.net")//TODO: Set Invite URL
+				.setTitle("Giveaway", Bot.config.getSystems().getBotInviteLike())
 				.setDescription(String.format("%sx %s", giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
 				.addField("Concludes", String.format("<t:%d:R>", giveaway.getDueAt().getTime()/1000), true)
-				.setColor(ColorUtils.randomPastel())
+				.setColor(Bot.config.getSystems().getSlashCommandConfig().getDefaultColor())
 				.setFooter(String.format("Hosted by %s | %s", Bot.jda.getUserById(giveaway.getHostedBy()).getAsTag(), giveaway.getId()))
 				.setTimestamp(giveaway.getDueAt().toLocalDateTime());
 		return eb.build();

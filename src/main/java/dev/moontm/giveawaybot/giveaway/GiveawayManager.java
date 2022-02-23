@@ -20,6 +20,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class GiveawayManager {
 
+	/**
+	 * This creates a new {@link GiveawayManager} instance.
+	 *
+	 * Includes a periodic check with the following steps for each active Giveaway:
+	 * <ol>
+	 *     <li>Check if the Guild still exists.</li>
+	 *     <li>Check if the Channel still exists.</li>
+	 *     <li>Check if the Message still exists.</li>
+	 *     <li>Check for any discrepancies between Reactions and the Database.</li>
+	 * </ol>
+	 */
 	public GiveawayManager() {
 		Runnable checksRunnable = () -> {
 			AtomicInteger i = new AtomicInteger();
@@ -62,6 +73,11 @@ public class GiveawayManager {
 		executor.scheduleAtFixedRate(checksRunnable, 2, 5, TimeUnit.MINUTES);
 	}
 
+	/**
+	 * Deletes a {@link Giveaway} from the Database and cancels its schedule, but not the message.
+	 *
+	 * @param giveaway The {@link Giveaway} to cancel.
+	 */
 	private void deleteGiveaway(Giveaway giveaway) {
 		try {
 			new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
@@ -71,6 +87,11 @@ public class GiveawayManager {
 		}
 	}
 
+	/**
+	 * Deletes a {@link Giveaway} from the Database, cancels its schedule and deletes the Message.
+	 *
+	 * @param giveaway The {@link Giveaway} to cancel.
+	 */
 	public void deleteGiveawayAndMessage(Giveaway giveaway) {
 		try {
 			new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
@@ -86,6 +107,14 @@ public class GiveawayManager {
 		}
 	}
 
+	/**
+	 * Checks for discrepancies between a {@link List} of {@link User}s and the Database.
+	 * If anything is found it attempts to solve the problem.
+	 *
+	 * @param giveaway The {@link Giveaway}.
+	 * @param reactors The {@link List} of {@link User}s.
+	 * @return The amount of changes made.
+	 */
 	public int checkReactions(Giveaway giveaway, List<User> reactors) {
 		try {
 			long[] participants = new GiveawayRepository(Bot.dataSource.getConnection()).getById(giveaway.getId()).get().getParticipants();
@@ -110,10 +139,22 @@ public class GiveawayManager {
 		return 0;
 	}
 
+	/**
+	 * Checks if the given {@link User} is a Bot or the System.
+	 * @param user The {@link User} to check.
+	 * @return False if the {@link User} is a Bot or the System.
+	 */
 	public boolean canParticipate(User user) {
 		return !user.isBot() && !user.isSystem();
 	}
 
+	/**
+	 * Adds a {@link User} to the Database.
+	 *
+	 * @param giveaway The {@link Giveaway} to add to.
+	 * @param participantId The ID of the {@link User} to add.
+	 * @return The updated {@link Giveaway}
+	 */
 	public Giveaway addParticipant(Giveaway giveaway, long participantId) {
 		long[] newParticipants = ArrayUtils.add(giveaway.getParticipants(), participantId);
 		try {
@@ -123,6 +164,13 @@ public class GiveawayManager {
 		}
 	}
 
+	/**
+	 * Removes a {@link User} from the Database.
+	 *
+	 * @param giveaway The {@link Giveaway} to remove from.
+	 * @param participantId The ID of the {@link User} to remove.
+	 * @return The updated {@link Giveaway}
+	 */
 	public Giveaway removeParticipant(Giveaway giveaway, long participantId) {
 		long[] newParticipants = ArrayUtils.removeElement(giveaway.getParticipants(), participantId);
 		try {

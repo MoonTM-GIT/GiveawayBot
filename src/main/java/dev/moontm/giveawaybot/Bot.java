@@ -16,9 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import java.nio.file.Path;
 import java.time.ZoneOffset;
@@ -74,8 +72,6 @@ public class Bot {
 		jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.setChunkingFilter(ChunkingFilter.ALL)
-				.setMemberCachePolicy(MemberCachePolicy.ALL)
-				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				//.addEventListeners()
 				.build();
 		DIH4JDABuilder.setJDA(jda)

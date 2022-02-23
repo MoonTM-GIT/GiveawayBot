@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
 public class DeveloperCommand extends GuildSlashCommand implements ISlashCommand {
 
 	public DeveloperCommand() {
-		this.setCommandData(Commands.slash("dev", "Collection of Developer Actions.").addOption(OptionType.STRING, "action", "The Action to take.", true).setDefaultEnabled(false));
+		this.setCommandData(Commands.slash("dev", "Collection of Developer Commands.").addOption(OptionType.STRING, "action", "The Action to take.", true).setDefaultEnabled(false));
 		this.setCommandPrivileges(CommandPrivilege.enableUser(Bot.config.getSystems().getAdminId()));
 	}
 
