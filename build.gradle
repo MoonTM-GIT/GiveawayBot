@@ -42,6 +42,11 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
+jar{
+    manifest{ attributes("Manifest-Version": "1.0", "Main-Class": "dev.moontm.giveawaybot.Bot") }
+}
+
+
 tasks.withType(JavaCompile){
     options.encoding = 'UTF-8'
 }

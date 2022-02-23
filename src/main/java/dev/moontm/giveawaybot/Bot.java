@@ -75,7 +75,6 @@ public class Bot {
 		asyncPool = Executors.newScheduledThreadPool(config.getSystems().getAsyncPoolSize());
 		jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
-				.setChunkingFilter(ChunkingFilter.ALL)
 				//.addEventListeners()
 				.build();
 		DIH4JDABuilder.setJDA(jda)
