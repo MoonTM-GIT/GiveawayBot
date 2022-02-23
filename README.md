@@ -2,7 +2,7 @@
 
 # GiveawayBot
 
-A Discord Giveaway Bot initially based on the [JavaBot](https://github.com/Java-Discord/JavaBot), now using [Dynxsty's Interaction Handler](https://github.com/DynxstyGIT/DIH4JDA) for Interactions.
+A Discord Giveaway Bot initially based on the [JavaBot](https://github.com/Java-Discord/JavaBot), now using [Dynxsty's Interaction Handler](https://github.com/DynxstyGIT/DIH4JDA) for Interactions. The goal is to always use the latest Discord Features available, as long as they make sense to use.
 
 Still WIP, will be fully released when all planned features are implemented.
 
