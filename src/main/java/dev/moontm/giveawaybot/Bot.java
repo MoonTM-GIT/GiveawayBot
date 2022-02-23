@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 
 import java.nio.file.Path;
@@ -75,6 +76,7 @@ public class Bot {
 		asyncPool = Executors.newScheduledThreadPool(config.getSystems().getAsyncPoolSize());
 		jda = JDABuilder.createDefault(config.getSystems().getJdaBotToken())
 				.setStatus(OnlineStatus.DO_NOT_DISTURB)
+				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				//.addEventListeners()
 				.build();
 		DIH4JDABuilder.setJDA(jda)
