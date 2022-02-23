@@ -36,8 +36,6 @@ public class GiveawayRepository {
 		statement.setString(6, giveaway.getWinnerPrize());
 		statement.setInt(7, giveaway.getWinnerAmount());
 		statement.executeUpdate();
-		int rows = statement.executeUpdate();
-		if (rows == 0) throw new SQLException("Giveaway wasn't inserted.");
 		ResultSet rs = statement.getGeneratedKeys();
 		if (rs.next()) {
 			giveaway.setId(rs.getInt("id"));

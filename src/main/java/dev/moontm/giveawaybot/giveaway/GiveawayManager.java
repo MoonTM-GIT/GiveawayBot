@@ -62,12 +62,27 @@ public class GiveawayManager {
 		executor.scheduleAtFixedRate(checksRunnable, 2, 5, TimeUnit.MINUTES);
 	}
 
-	public void deleteGiveaway(Giveaway giveaway) {
+	private void deleteGiveaway(Giveaway giveaway) {
 		try {
 			new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
 			Bot.giveawayStateManager.cancelSchedule(giveaway);
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteGiveawayAndMessage(Giveaway giveaway) {
+		try {
+			new GiveawayRepository(Bot.dataSource.getConnection()).markInactive(giveaway.getId());
+			Guild guild = Bot.jda.getGuildById(giveaway.getGuildId());
+			if (guild == null) return;
+			TextChannel channel = guild.getTextChannelById(giveaway.getChannelId());
+			if (channel == null) return;
+			channel.deleteMessageById(giveaway.getMessageId()).queue(unused -> {}, throwable -> {
+				log.info("Couldn't delete Message - Not Found (Giveaway {})", giveaway.getId());
+			});
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

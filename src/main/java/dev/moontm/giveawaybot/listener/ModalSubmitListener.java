@@ -97,7 +97,7 @@ public class ModalSubmitListener extends ListenerAdapter {
 		EmbedBuilder eb = new EmbedBuilder()
 				.setTitle("Giveaway", "https://javadiscord.net")//TODO: Set Invite URL
 				.setDescription(String.format("%sx %s", giveaway.getWinnerAmount(), giveaway.getWinnerPrize()))
-				.addField("Concludes", String.format("<t:%d:R>", giveaway.getDueAt().getTime()), true) //TODO:Test when commands work
+				.addField("Concludes", String.format("<t:%d:R>", giveaway.getDueAt().getTime()/1000), true)
 				.setColor(ColorUtils.randomPastel())
 				.setFooter(String.format("Hosted by %s | %s", Bot.jda.getUserById(giveaway.getHostedBy()).getAsTag(), giveaway.getId()))
 				.setTimestamp(giveaway.getDueAt().toLocalDateTime());

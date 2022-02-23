@@ -5,6 +5,7 @@ import com.dynxsty.dih4jda.DIH4JDABuilder;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.moontm.giveawaybot.data.config.BotConfig;
 import dev.moontm.giveawaybot.data.h2db.DbHelper;
+import dev.moontm.giveawaybot.listener.AutoCompleteListener;
 import dev.moontm.giveawaybot.listener.ModalSubmitListener;
 import dev.moontm.giveawaybot.listener.ReactionListener;
 import dev.moontm.giveawaybot.listener.StartupListener;
@@ -93,6 +94,7 @@ public class Bot {
 				new StartupListener(),
 				new ModalSubmitListener(),
 				new ReactionListener(),
+				new AutoCompleteListener(),
 				PresenceUpdater.standardActivities()
 		);
 	}
