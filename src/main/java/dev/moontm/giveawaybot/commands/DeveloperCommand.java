@@ -1,7 +1,7 @@
 package dev.moontm.giveawaybot.commands;
 
 import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash.dao.GuildSlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash.dao.GlobalSlashCommand;
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.util.Responses;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
 
-public class DeveloperCommand extends GuildSlashCommand implements ISlashCommand {
+public class DeveloperCommand extends GlobalSlashCommand implements ISlashCommand {
 
 	public DeveloperCommand() {
 		this.setCommandData(Commands.slash("dev", "Collection of Developer Commands.").addOption(OptionType.STRING, "action", "The Action to take.", true).setDefaultEnabled(false));
