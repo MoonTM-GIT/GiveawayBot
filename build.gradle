@@ -3,8 +3,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-sourceCompatibility = 17
-targetCompatibility = 17
+sourceCompatibility = 18
+targetCompatibility = 18
 
 group 'dev.moontm'
 version '1.0-SNAPSHOT'
@@ -46,10 +46,6 @@ jar{
     manifest{ attributes("Manifest-Version": "1.0", "Main-Class": "dev.moontm.giveawaybot.Bot") }
 }
 
-
-tasks.withType(JavaCompile){
-    options.encoding = 'UTF-8'
-}
 tasks.withType(JavaCompile).configureEach {
     options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
 }
