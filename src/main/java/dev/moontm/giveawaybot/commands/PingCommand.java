@@ -1,7 +1,7 @@
 package dev.moontm.giveawaybot.commands;
 
-import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash.dao.GlobalSlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.ISlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.dao.GlobalSlashCommand;
 import dev.moontm.giveawaybot.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

@@ -1,19 +1,19 @@
 package dev.moontm.giveawaybot.commands.giveawaysubcommands;
 
-import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash.dao.SlashSubcommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.ISlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.dao.Subcommand;
 import dev.moontm.giveawaybot.util.Responses;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.text.Modal;
+import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
 
-public class CreateGiveawaySubcommand extends SlashSubcommand implements ISlashCommand {
+public class CreateGiveawaySubcommand extends Subcommand implements ISlashCommand {
 
 	public CreateGiveawaySubcommand() {
 		this.setSubcommandData(new SubcommandData("create", "Start Giveaway creation process for the current channel."));

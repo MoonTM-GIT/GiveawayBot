@@ -1,7 +1,7 @@
 package dev.moontm.giveawaybot.commands.giveawaysubcommands;
 
-import com.dynxsty.dih4jda.commands.interactions.slash.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash.dao.SlashSubcommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.ISlashCommand;
+import com.dynxsty.dih4jda.commands.interactions.slash_command.dao.Subcommand;
 import dev.moontm.giveawaybot.Bot;
 import dev.moontm.giveawaybot.giveaway.dao.GiveawayRepository;
 import dev.moontm.giveawaybot.giveaway.model.Giveaway;
@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class CancelGiveawaySubcommand extends SlashSubcommand implements ISlashCommand {
+public class CancelGiveawaySubcommand extends Subcommand implements ISlashCommand {
 
 	public CancelGiveawaySubcommand() {
 		this.setSubcommandData(new SubcommandData("cancel", "Cancel a Giveaway.").addOption(OptionType.INTEGER, "giveaway-id", "The Giveaway you want to cancel.", true, true));
