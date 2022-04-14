@@ -4,6 +4,7 @@ build/
 /config.json
 /config
 /purgeArchives
+/out
 
 # Eclipse settings
 .classpath
