@@ -61,14 +61,7 @@ public class ModalSubmitListener extends ListenerAdapter {
 				return Responses.error(event.getHook(), "You've provided an invalid date! The date must be somewhere between now and 2 years from now. Please try again.");
 			}
 
-			Giveaway giveaway = new Giveaway();
-			giveaway.setGuildId(event.getGuild().getIdLong());
-			giveaway.setChannelId(giveawayChannel.getIdLong());
-			giveaway.setHostedBy(event.getUser().getIdLong());
-			giveaway.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-			giveaway.setDueAt(Timestamp.valueOf(dueAt));
-			giveaway.setWinnerPrize(giveawayPrize);
-			giveaway.setWinnerAmount(giveawayWinnerAmount);
+			Giveaway giveaway = new Giveaway(event.getGuild().getIdLong(), giveawayChannel.getIdLong(), event.getUser().getIdLong(), Timestamp.valueOf(dueAt), giveawayPrize, giveawayWinnerAmount);
 
 			Giveaway inserted = new GiveawayRepository(con).insert(giveaway);
 			giveawayChannel.sendMessageEmbeds(buildGiveawayEmbed(inserted)).queue(message -> {
