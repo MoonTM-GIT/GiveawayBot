@@ -1,7 +1,6 @@
 package dev.moontm.giveawaybot.commands.giveawaysubcommands;
 
-import com.dynxsty.dih4jda.commands.interactions.slash_command.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash_command.dao.Subcommand;
+import com.dynxsty.dih4jda.interactions.commands.SlashCommand;
 import dev.moontm.giveawaybot.util.Responses;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,14 +12,14 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.requests.restaction.interactions.ModalCallbackAction;
 
-public class CreateGiveawaySubcommand extends Subcommand implements ISlashCommand {
+public class CreateGiveawaySubcommand extends SlashCommand.Subcommand {
 
 	public CreateGiveawaySubcommand() {
 		this.setSubcommandData(new SubcommandData("create", "Start Giveaway creation process for the current channel."));
 	}
 
 	@Override
-	public void handleSlashCommandInteraction(SlashCommandInteractionEvent event) {
+	public void execute(SlashCommandInteractionEvent event) {
 		if (!canCreateMeetings(event.getMember())) {
 			Responses.error(event, "Unfortunately you are not able to create a command at the moment.").queue();
 		}

@@ -1,7 +1,6 @@
 package dev.moontm.giveawaybot.commands;
 
-import com.dynxsty.dih4jda.commands.interactions.slash_command.ISlashCommand;
-import com.dynxsty.dih4jda.commands.interactions.slash_command.dao.GlobalSlashCommand;
+import com.dynxsty.dih4jda.interactions.commands.SlashCommand;
 import dev.moontm.giveawaybot.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -10,14 +9,15 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 /**
  * Command that displays the current Gateway ping.
  */
-public class PingCommand extends GlobalSlashCommand implements ISlashCommand {
+public class PingCommand extends SlashCommand {
 
 	public PingCommand() {
+		this.setType(Type.GLOBAL);
 		this.setCommandData(Commands.slash("ping", "Pong!"));
 	}
 
 	@Override
-	public void handleSlashCommandInteraction(SlashCommandInteractionEvent event) {
+	public void execute(SlashCommandInteractionEvent event) {
 		long gatewayPing = event.getJDA().getGatewayPing();
 		String botImage = event.getJDA().getSelfUser().getAvatarUrl();
 		var e = new EmbedBuilder()
